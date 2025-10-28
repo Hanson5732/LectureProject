@@ -46,7 +46,7 @@ public class UserDAO {
      * @throws SQLException
      */
     public boolean registerUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (username, password_hash, full_name, id_card_number, phone_number, role) " +
+        String sql = "INSERT INTO users (username, password, full_name, id_card_number, phone_number, role) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseUtil.getConnection();
@@ -62,5 +62,71 @@ public class UserDAO {
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         }
+    }
+
+    /**
+     * 根据用户名查找用户
+     *
+     * @param username
+     * @return
+     * @throws SQLException
+     */
+    public User findByUsername(String username) throws SQLException {
+        String sql = "SELECT * FROM users WHERE username = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapRowToUser(rs);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 根据ID查找用户
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    public User findById(long id) throws SQLException {
+        String sql = "SELECT * FROM users WHERE id = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapRowToUser(rs);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 将 ResultSet 映射到 User 对象
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
+    private User mapRowToUser(ResultSet rs) throws SQLException {
+        User user = new User(
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getString("full_name"),
+                rs.getString("id_card_number"),
+                rs.getString("phone_number"),
+                rs.getString("role")
+        );
+        user.setId(rs.getLong("id"));
+        return user;
     }
 }

@@ -1,0 +1,144 @@
+/* 全局样式 */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    height: 100%;
+    overflow: hidden; /* 隐藏滚动条 */
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 使用一个占位背景图, 模仿图片的家居风格
+      你可以替换为你自己的图片
+    */
+    background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+}
+
+/* 登录框容器 */
+.login-container {
+    width: 400px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    box-sizing: border-box; /* 确保 padding 不会撑大宽度 */
+}
+
+.form-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+/* 标题 */
+.form-wrapper h2 {
+    color: #333;
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* 右上角链接 (注册) */
+.header-links {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.header-links a {
+    color: #999;
+    text-decoration: none;
+    font-size: 14px;
+}
+.header-links a:hover {
+    color: #333;
+}
+
+
+/* 输入框组 */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group .icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+    font-size: 16px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 12px 12px 40px; /* 左侧留出图标空间 */
+    font-size: 14px;
+    border: 1px solid #eee;
+    background-color: #f7f7f7;
+    border-radius: 6px;
+    box-sizing: border-box; /* 确保 padding 不会撑大宽度 */
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #1db99a; /* 模仿图片中的绿色高光 */
+    background-color: #fff;
+}
+
+/* 同意协议 */
+.agreement {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+}
+.agreement input[type="checkbox"] {
+    margin-right: 5px;
+}
+.agreement a {
+    color: #666;
+    text-decoration: none;
+}
+.agreement a:hover {
+    text-decoration: underline;
+}
+
+/* 登录按钮 */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    /* 模仿图片中的渐变绿色 */
+    background: linear-gradient(90deg, #1db99a, #16a085);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+.login-btn:hover {
+    opacity: 0.85;
+}
+
+/* 底部链接 (忘记密码) */
+.footer-links {
+    margin-top: 20px;
+    text-align: right;
+}
+.footer-links a {
+    font-size: 14px;
+    color: #999;
+    text-decoration: none;
+}
+.footer-links a:hover {
+    color: #333;
+}

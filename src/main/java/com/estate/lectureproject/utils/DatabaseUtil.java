@@ -3,7 +3,6 @@ package com.estate.lectureproject.utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import com.estate.lectureproject.utils.ConfigUtil;
 
 public class DatabaseUtil {
     public static Connection getConnection() throws SQLException {
