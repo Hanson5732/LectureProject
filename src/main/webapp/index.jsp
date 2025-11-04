@@ -31,10 +31,22 @@
 
     <!-- 4. User Info Area (Login/Sign Up) -->
     <div class="nav-right">
-      <!-- (Removed "Complaint Hotline", "New Home Promotions", etc.) -->
+      <%
+        // 检查 session 中是否存在 "fullName" 属性
+        String username = (String) session.getAttribute("username");
+      %>
       <div id="userInfo" class="user-info">
-        <a href="login.jsp" class="nav-item">Login</a>
-        <a href="register.jsp" class="nav-item">Sign Up</a>
+        <% if (username != null) { %>
+
+          <span>Hello, <strong><%= username %></strong></span>
+          <a id="logoutLink" href="#" class="nav-item">Logout</a>
+
+        <% } else { %>
+
+          <a href="login.jsp" class="nav-item">Login</a>
+          <a href="register.jsp" class="nav-item">Sign Up</a>
+
+        <% } %>
       </div>
     </div>
   </nav>
@@ -117,7 +129,6 @@
   1. apiUtil.js must be loaded before index.js
   2. index.js handles the login state check
 -->
-<script src="static/js/apiUtil.js"></script>
 <script src="static/js/index.js"></script>
 
 </body>

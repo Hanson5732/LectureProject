@@ -123,13 +123,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
                 .then(data => {
                     // 注册成功
-                    console.log("Registration successful:", data);
                     alert(data.message || "Registration successful! Please login.");
                     window.location.href = "login.jsp";
                 })
                 .catch(error => {
                     // 注册失败
-                    console.error("Registration failed:", error);
 
                     let friendlyMessage = "Registration failed. Please try again.";
                     if (error.message.includes("(")) {

@@ -64,21 +64,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
                 .then(data => {
                     // 11. [成功] 登录成功，"data" 是解析后的 JSON
-                    console.log("Login successful:", data);
-
-                    // [关键] 将 Access Token 存储在 localStorage 中
-                    // 这样其他页面或JS文件就可以获取它
-                    localStorage.setItem("accessToken", data.accessToken);
-                    localStorage.setItem("userRole", data.role); // 存储角色
 
                     // 提示用户并跳转到主页
-                    alert("Login successful!");
                     window.location.href = "index.jsp"; // 登录后跳转到主页
 
                 })
                 .catch(error => {
                     // 12. [失败] 捕获所有错误 (网络错误或登录失败)
-                    console.error("Login failed:", error);
 
                     // 从 Servlet 返回的 401 错误中提取消息
                     // "Error: Unauthorized (用户名或密码无效。)" -> "用户名或密码无效。"
