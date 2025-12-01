@@ -14,7 +14,7 @@
     <div class="nav-left">
       <a href="index.jsp" class="logo">
         <i class="fa-solid fa-building"></i>
-        <span class="logo-text">weave</span>
+        <span class="logo-text">Rent</span>
         <span class="logo-sub">LIVING</span>
       </a>
 
@@ -39,35 +39,58 @@
         <a id="logoutLink" href="#" class="nav-item">Logout</a>
         <% } else { %>
         <a href="login.jsp" class="nav-item">Login</a>
+        <div class="nav-divider"></div>
+        <a href="register.jsp" class="nav-item">Sign up</a>
         <% } %>
 
-        <div class="nav-divider"></div>
       </div>
     </div>
   </nav>
 </header>
 
 <main class="hero-section">
-  <div class="search-block">
-    <div class="search-content">
-      <div class="search-main">
-        <div class="search-bar">
-          <input type="text" id="searchInput" placeholder="Enter community, address...">
-          <div class="search-buttons">
-            <button class="btn-secondary" id="searchBtn">Search</button>
-          </div>
-        </div>
+  <div class="search-container">
+    <div class="search-tabs">
+      <button class="tab-btn active">Long Stay (1+ Month)</button>
+      <button class="tab-btn">Short Stay (Under 1 Month)</button>
+      <button class="tab-btn">Student Pricing</button>
+    </div>
 
-        <div class="quick-links-container">
-          <div class="quick-links-col">
-            <h4>Areas</h4>
-            <div class="links-row" id="areaLinksContainer">
-              Loading areas...
-            </div>
-          </div>
+    <form action="search.jsp" method="get" class="search-bar-rounded">
+
+      <div class="search-input-group">
+        <label>Where ?</label>
+        <div class="select-wrapper">
+          <select name="areaId">
+            <option value="">Select a city</option>
+            <option value="1">Central</option>
+            <option value="2">Kowloon</option>
+            <option value="3">New Territories</option>
+          </select>
         </div>
       </div>
-    </div>
+
+      <div class="search-input-group">
+        <label>When ?</label>
+        <input type="text" placeholder="Select dates" onfocus="(this.type='date')" />
+      </div>
+
+      <div class="search-input-group">
+        <label>Who ?</label>
+        <select name="guests">
+          <option value="1">1 guest</option>
+          <option value="2">2 guests</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-search">
+        Find your home <i class="fa-solid fa-magnifying-glass" style="margin-left:8px;"></i>
+      </button>
+    </form>
+
+<%--    <div class="quick-links-container" style="margin-top: 20px; color: white;">--%>
+<%--      <div id="areaLinksContainer">Loading areas...</div>--%>
+<%--    </div>--%>
   </div>
 </main>
 

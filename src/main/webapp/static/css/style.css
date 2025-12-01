@@ -124,7 +124,7 @@ a {
        2. 背景图片：一张类似生活方式的高清图
     */
     background-image:
-            linear-gradient(115deg, #426354 0%, #426354 45%, transparent 45.1%),
+            linear-gradient(115deg, #426354 0%, #426354 25%, transparent 25.1%),
             url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1950&q=80');
 
     background-size: cover;

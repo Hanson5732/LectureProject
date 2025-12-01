@@ -8,13 +8,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
 
 import java.io.IOException;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
-    private final UserDao userDao = new UserDao();
+    @Inject
+    private UserDao userDao;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

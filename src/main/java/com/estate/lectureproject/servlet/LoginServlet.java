@@ -3,6 +3,7 @@ package com.estate.lectureproject.servlet;
 import com.estate.lectureproject.dao.UserDao;
 import com.estate.lectureproject.entity.User;
 import com.estate.lectureproject.utils.PasswordUtil;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +17,8 @@ import java.util.Optional;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private final UserDao userDao = new UserDao();
+    @Inject
+    private UserDao userDao;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

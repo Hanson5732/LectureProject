@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ import java.util.Map;
 @WebServlet("/api/areas")
 public class AreaServlet extends HttpServlet {
 
-    private final AreaDao areaDao = new AreaDao();
+    @Inject
+    private AreaDao areaDao;
+
     private final Gson gson = new Gson();
 
     @Override

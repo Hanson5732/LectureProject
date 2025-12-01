@@ -3,6 +3,7 @@ package com.estate.lectureproject.servlet;
 import com.estate.lectureproject.dao.RoomDao;
 import com.estate.lectureproject.entity.Room;
 import com.google.gson.Gson;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +19,9 @@ import java.util.Map;
 @WebServlet("/api/rooms")
 public class RoomServlet extends HttpServlet {
 
-    private final RoomDao roomDao = new RoomDao();
+    @Inject
+    private RoomDao roomDao;
+
     private final Gson gson = new Gson();
 
     @Override

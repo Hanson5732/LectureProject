@@ -1,7 +1,7 @@
-<persistence-unit name="default" transaction-type="JTA">
+<persistence-unit name="lecture-project" transaction-type="JTA">
   <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-  <jta-data-source>ecommerce</jta-data-source>
+  <jta-data-source>lecture_project</jta-data-source>
 
   <properties>
     <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
