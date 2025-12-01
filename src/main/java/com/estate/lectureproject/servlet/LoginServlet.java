@@ -1,6 +1,6 @@
 package com.estate.lectureproject.servlet;
 
-import com.estate.lectureproject.dao.UserDAO;
+import com.estate.lectureproject.dao.UserDao;
 import com.estate.lectureproject.entity.User;
 import com.estate.lectureproject.utils.PasswordUtil;
 import jakarta.servlet.ServletException;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private final UserDAO userDao = new UserDAO();
+    private final UserDao userDao = new UserDao();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

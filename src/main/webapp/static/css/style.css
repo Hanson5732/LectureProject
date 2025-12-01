@@ -2,30 +2,33 @@
 body, html {
     margin: 0;
     padding: 0;
-    font-family: 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+    /* 尝试使用接近原网站的字体栈 */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
+    height: 100%;
 }
 
 a {
     text-decoration: none;
     color: inherit;
-    transition: color 0.2s;
+    transition: opacity 0.2s;
 }
 
-/* --- Top Navigation Bar --- */
+/* --- Top Navigation Bar (Transparent Overlay) --- */
 .top-bar {
-    /* Green color from the image [cite: image_89f1bf.png] */
-    background-color: #1db99a;
-    color: white;
-    padding: 0 50px;
-    height: 60px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: absolute; /* 浮动在背景之上 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 25px 60px; /* 增加内边距 */
+    background: transparent;
+    box-sizing: border-box;
 }
 
 .nav-container {
-    max-width: 1200px; /* Limit content width */
-    height: 100%;
+    max-width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -35,197 +38,333 @@ a {
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
-    height: 100%;
 }
 
+/* Logo */
 .logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    line-height: 1;
+    margin-right: 60px;
+}
+.logo i {
     font-size: 24px;
-    font-weight: bold;
-    margin-right: 20px;
-    white-space: nowrap; /* 确保 Logo 也不换行 */
+    margin-bottom: 5px;
 }
-
-/* City Selector */
-.city-selector {
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 5px 10px;
-    border-radius: 4px;
-    margin-right: 20px;
+.logo-text {
     font-size: 14px;
-    white-space: nowrap; /* 确保城市也不换行 */
+    font-weight: 700;
+    letter-spacing: 1px;
 }
-.city-selector i {
-    margin-left: 5px;
+.logo-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px;
 }
 
+/* Nav Links */
 .nav-item {
-    /* [修正] 增加了左右 padding，使其变宽 */
-    padding: 0 14px;
+    color: white;
     font-size: 15px;
-    line-height: 60px; /* Vertical centering */
+    margin: 0 18px;
+    font-weight: 500;
+    position: relative;
+    cursor: pointer;
+}
 
-    /* [关键修正] 强制不换行，解决字体截断问题 */
-    white-space: nowrap;
+.nav-item i {
+    font-size: 12px;
+    margin-left: 4px;
 }
 
 .nav-item:hover {
-    background-color: rgba(255,255,255,0.1);
+    opacity: 0.8;
 }
 
-/* User Info Area */
+/* User Info / Login Area */
 .user-info {
-    font-size: 15px;
-    /* [修正] 确保 "Login / Sign Up" 区域不被挤压 */
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: white;
 }
 
-.user-info a, .user-info span {
-    margin-left: 15px;
-    /* [关键修正] 确保 "Login/Sign Up" 也不换行 */
-    white-space: nowrap;
+/* "Schedule Viewing" Button - White rounded */
+.btn-white-pill {
+    background: white;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 30px;
+    margin-right: 25px;
+    transition: transform 0.2s;
+}
+.btn-white-pill:hover {
+    transform: scale(1.02);
 }
 
-.user-info a:hover {
-    text-decoration: underline;
+.nav-divider {
+    height: 20px;
+    width: 1px;
+    background: rgba(255,255,255,0.4);
+    margin: 0 15px;
 }
 
 /* --- Hero (Main) Section --- */
 .hero-section {
-    height: 450px;
-    /* Placeholder background image [cite: image_89f1bf.png] */
-    background-image: url('https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto-format&fit=crop&w=1950&q=80');
+    position: relative;
+    height: 100vh; /* 全屏高度 */
+    width: 100%;
+
+    /* [关键样式] 背景组合：
+       1. 线性渐变：从左侧绿色(#426354) 到 透明，形成约 45% 处的硬切边
+       2. 背景图片：一张类似生活方式的高清图
+    */
+    background-image:
+            linear-gradient(115deg, #426354 0%, #426354 45%, transparent 45.1%),
+            url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1950&q=80');
+
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    padding-top: 50px; /* Push search box down from top */
+    align-items: flex-start;
+    padding-left: 10%; /* 内容靠左对齐 */
     box-sizing: border-box;
 }
 
-/* --- Search Block --- */
-.search-block {
-    width: 950px;
+/* --- Hero Text --- */
+.hero-text {
+    color: white;
+    font-size: 72px; /* 超大字体 */
+    font-weight: 700;
+    margin-bottom: 50px;
+    line-height: 1.1;
+    z-index: 10;
 }
 
-/* Search Type Tabs */
+/* "life" 部分使用衬线字体和斜体 */
+.hero-text .serif-italic {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* --- Search Container --- */
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 850px; /* 搜索栏宽度 */
+    z-index: 10;
+}
+
+/* Tabs (Black Pills) */
 .search-tabs {
     display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
-.search-tabs .tab-btn {
-    padding: 10px 20px;
+.tab-btn {
+    padding: 12px 28px;
     border: none;
-    background: rgba(0, 0, 0, 0.3); /* Translucent black bg */
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
+    border-radius: 30px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
-    margin-right: 5px;
-    border-radius: 5px 5px 0 0; /* Top corners rounded */
+    transition: background 0.3s;
 }
 
-.search-tabs .tab-btn.active {
-    background: #fff; /* Active tab is white */
-    color: #1db99a; /* Active tab text is green */
-}
-
-/* White Content Area */
-.search-content {
-    background: #fff;
-    padding: 25px 30px;
-    border-radius: 0 8px 8px 8px; /* Top-left corner is not rounded */
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    /* (Width is automatic after removing QR code) */
-}
-
-.search-main {
-    width: 100%;
-}
-
-/* Search Bar */
-.search-bar {
-    display: flex;
-    width: 100%;
-    height: 50px;
-    border: 2px solid #1db99a; /* Green border */
-    border-radius: 5px;
-    overflow: hidden; /* Ensure rounded corners */
-}
-
-.search-bar input {
-    flex-grow: 1; /* Take remaining space */
-    border: none;
-    padding: 0 20px;
-    font-size: 16px;
-    outline: none;
-}
-
-/* Search Button Group */
-.search-buttons {
-    display: flex;
-}
-
-.search-buttons button {
-    width: 100px;
-    border: none;
-    font-size: 18px;
-    font-weight: bold;
+/* 激活状态：黑色背景 */
+.tab-btn.active {
+    background: black;
     color: white;
-    cursor: pointer;
-    transition: background-color 0.2s;
+}
+.tab-btn:hover:not(.active) {
+    color: white;
+    background: rgba(0,0,0,0.2);
 }
 
-.search-buttons .btn-secondary {
-    background: #1db99a; /* Green button [cite: image_89f1bf.png] */
-}
-.search-buttons .btn-secondary:hover {
-    background: #16a085;
-}
-
-.search-buttons .btn-primary {
-    background: #e84a5f; /* Red button [cite: image_89f1bf.png] */
-}
-.search-buttons .btn-primary:hover {
-    background: #d73c50;
-}
-
-/* Quick Links (Two Columns) */
-.quick-links-container {
+/* The White Rounded Bar */
+.search-bar-rounded {
+    background: white;
+    width: 100%;
+    height: 80px; /* 加高一点 */
+    border-radius: 40px; /* 完全圆角 */
     display: flex;
-    margin-top: 20px;
+    align-items: center;
+    padding: 8px; /* 内部留白 */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* Inputs inside the bar */
+.search-input-group {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 30px;
+    border-right: 1px solid #eee; /* 分隔线 */
+    position: relative;
+}
+.search-input-group:nth-last-child(2) { /* 倒数第二个元素（按钮前的一个）无边框 */
+    border-right: none;
+}
+
+.search-input-group label {
     font-size: 13px;
-    color: #555;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 5px;
+    display: block;
 }
 
-.quick-links-col {
-    flex: 1; /* Divide space equally */
-}
-.quick-links-col:first-child {
-    padding-right: 20px;
-    border-right: 1px solid #eee; /* Divider line */
-}
-.quick-links-col:last-child {
-    padding-left: 20px;
+.search-input-group input,
+.search-input-group select {
+    border: none;
+    outline: none;
+    font-size: 15px;
+    color: #666;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    appearance: none; /* 移除默认下拉箭头 */
+    -webkit-appearance: none;
 }
 
-.quick-links-col h4 {
-    font-size: 14px;
-    margin-top: 0;
-    margin-bottom: 10px;
+/* 自定义下拉箭头 */
+.search-input-group .select-wrapper {
+    position: relative;
+}
+.search-input-group .select-wrapper::after {
+    content: '\f107'; /* FontAwesome Down Arrow */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+
+/* The "Find" Button (Green) */
+.btn-search {
+    background-color: #426354; /* 匹配背景绿 */
+    color: white;
+    border: none;
+    height: 64px;
+    padding: 0 40px;
+    border-radius: 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+
+.btn-search:hover {
+    background-color: #355043;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .hero-section {
+        /* 在小屏幕上调整渐变角度，以免遮挡过多 */
+        background-image:
+                linear-gradient(105deg, #426354 0%, #426354 50%, rgba(66, 99, 84, 0.8) 50%, rgba(66, 99, 84, 0) 70%),
+                url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1950&q=80');
+    }
+    .hero-text { font-size: 56px; }
+    .search-container { width: 90%; }
+}
+
+/* --- Property Card Styles (房源卡片) --- */
+.section-container {
+    width: 1200px;
+    margin: 40px auto;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
     color: #333;
 }
 
-.links-row {
+.property-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 卡片之间的间距 */
+}
+
+.property-card {
+    width: 285px; /* 一行大约放4个 */
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none; /* 移除链接下划线 */
+    color: inherit;
+    display: block;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    background-color: #eee;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
     margin-bottom: 8px;
-    line-height: 1.6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.links-row a {
-    color: #555;
-    margin: 0 8px 0 0;
+.card-meta {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 10px;
 }
-.links-row a:hover {
+
+.card-price {
+    font-size: 18px;
     color: #e84a5f;
-    text-decoration: underline;
+    font-weight: bold;
 }
-

@@ -27,17 +27,18 @@ public class User {
     @Column(name = "phone_number", unique = true, nullable = false, length = 30)
     private String phoneNumber;
 
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING) // [!! 添加 !!] 匹配数据库的 enum('user','agent')
-    private Role role;
-
-    // [!! 添加 !!] 关联到 Property 表 (拥有者)
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
-    private Set<Property> ownedProperties;
-
-    // [!! 添加 !!] 关联到 Property 表 (使用者)
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<Property> usedProperties;
+    private Set<Order> orders;
+
+    // 更新 Enum
+    public enum Role {
+        USER, ADMIN // 对应数据库 ENUM('USER','ADMIN')
+    }
+
+    // 确保 role 字段使用新的 Enum
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     // JPA 需要一个无参数的构造函数
     public User() {}
@@ -49,13 +50,9 @@ public class User {
         this.fullName = fullName;
         this.idCardNumber = idCardNumber;
         this.phoneNumber = phoneNumber;
-        this.setRole(role); // 使用 setRole 来转换 String
+        this.setRole(role);
     }
 
-    // [!! 添加 !!] 用于角色的内部 Enum
-    public enum Role {
-        user, agent
-    }
 
     // --- Getters 和 Setters (重要修改) ---
 
@@ -81,9 +78,4 @@ public class User {
             this.role = Role.valueOf(roleString);
         }
     }
-
-    public Set<Property> getOwnedProperties() { return ownedProperties; }
-    public void setOwnedProperties(Set<Property> ownedProperties) { this.ownedProperties = ownedProperties; }
-    public Set<Property> getUsedProperties() { return usedProperties; }
-    public void setUsedProperties(Set<Property> usedProperties) { this.usedProperties = usedProperties; }
 }

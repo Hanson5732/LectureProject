@@ -8,7 +8,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import java.util.Optional;
 
-public class UserDAO {
+public class UserDao {
 
     /**
      * 根据用户名查找用户 (使用 JPA)
