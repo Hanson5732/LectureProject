@@ -142,4 +142,8 @@ public class RoomDao {
         query.setMaxResults(50);
         return query.getResultList();
     }
+
+    public Long countAll() {
+        return em.createQuery("SELECT COUNT(r) FROM Room r", Long.class).getSingleResult();
+    }
 }

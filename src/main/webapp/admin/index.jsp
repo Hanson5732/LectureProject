@@ -30,15 +30,17 @@
         <div style="margin-top: 30px;">
             <div class="stat-card">
                 <h3>Total Orders</h3>
-                <p style="font-size: 24px; font-weight: bold;">--</p>
+                <p id="totalOrdersDisplay" style="font-size: 24px; font-weight: bold;">--</p>
             </div>
             <div class="stat-card">
                 <h3>Active Rooms</h3>
-                <p style="font-size: 24px; font-weight: bold;">--</p>
+                <p id="activeRoomsDisplay" style="font-size: 24px; font-weight: bold;">--</p>
             </div>
         </div>
     </div>
 </div>
+
+<script src="../static/js/admin-dashboard.js"></script>
 
 <script>
     async function logout() {

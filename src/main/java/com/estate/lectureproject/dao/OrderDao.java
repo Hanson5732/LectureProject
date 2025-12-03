@@ -106,4 +106,8 @@ public class OrderDao {
                 .setParameter("statuses", activeStatuses)
                 .getResultList();
     }
+
+    public Long countAll() {
+        return em.createQuery("SELECT COUNT(o) FROM Order o", Long.class).getSingleResult();
+    }
 }

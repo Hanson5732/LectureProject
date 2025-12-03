@@ -61,6 +61,8 @@
 
     <form action="search.jsp" method="get" class="search-bar-rounded">
 
+      <input type="hidden" id="searchType" name="searchType" value="long">
+
       <div class="search-input-group">
         <label>Where ?</label>
         <input type="text" name="areaKeyword" placeholder="City or Area..." />
