@@ -368,3 +368,15 @@ a {
     color: #e84a5f;
     font-weight: bold;
 }
+
+.status-CANCELLED { background: #e2e3e5; color: #383d41; }
+
+.btn-cancel {
+    background: #fff;
+    color: #6c757d;
+    border: 1px solid #6c757d !important;
+}
+.btn-cancel:hover {
+    background: #6c757d;
+    color: white;
+}

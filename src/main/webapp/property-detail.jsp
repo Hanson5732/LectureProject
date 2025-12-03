@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="static/css/style.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
     <style>
         /* 保持你原有的样式 */
         .details-container { width: 1200px; margin: 20px auto; display: flex; justify-content: space-between; }
@@ -87,7 +85,8 @@
 
         <div style="margin-top: 15px;">
             <label style="display:block; font-size:12px; margin-bottom:5px;">Check-in Date:</label>
-            <input type="text" id="startDate" placeholder="Select Date" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; background-color: white;">
+            <input id="startDate" placeholder="Select Date" readonly
+                   style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; background-color: white; cursor: pointer;">
 
             <label style="display:block; font-size:12px; margin-bottom:5px;">Duration:</label>
             <select id="duration" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;">
@@ -106,7 +105,8 @@
     </aside>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js"></script>
+
 <script src="static/js/apiUtil.js"></script>
 <script src="static/js/room-detail.js"></script>
 

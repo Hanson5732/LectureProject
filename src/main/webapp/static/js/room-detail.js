@@ -11,38 +11,50 @@ document.addEventListener("DOMContentLoaded", function() {
     // 1. 加载详情
     loadRoomDetail(roomId);
 
-    // 2. 初始化日历 (先获取占用情况)
-    initCalendar(roomId);
+    // 2. 初始化日历 (Easepick)
+    initEasepick(roomId);
 
     // 3. 绑定按钮
     const bookBtn = document.getElementById("bookBtn");
     if (bookBtn) {
-        bookBtn.addEventListener("click", () => handleBooking(roomId)); // 传参 roomId
+        bookBtn.addEventListener("click", () => handleBooking(roomId));
     }
 });
 
-// [新增] 初始化日历函数
-async function initCalendar(roomId) {
+// [新增] 初始化 Easepick 日历
+async function initEasepick(roomId) {
     try {
-        // 获取已被占用的日期
+        // 1. 获取占用数据
         const res = await fetch(`api/room-availability?roomId=${roomId}`);
-        const bookedDates = await res.json(); // 格式: [{from: '...', to: '...'}, ...]
+        const bookedData = await res.json(); // [{from: '2023-01-01', to: '2023-01-05'}, ...]
 
-        // 初始化 Flatpickr
-        flatpickr("#startDate", {
-            minDate: "today",      // 禁止选今天之前的
-            disable: bookedDates,  // [关键] 禁用已预订的日期段
-            dateFormat: "Y-m-d",   // 格式
-            // 可选：高亮显示样式
-            locale: {
-                firstDayOfWeek: 1 // 周一作为一周开始
+        // 2. 转换数据格式为 Easepick 所需的格式: [['start', 'end'], ['start', 'end']]
+        const bookedDates = bookedData.map(item => [item.from, item.to]);
+
+        // 3. 创建日历实例
+        const picker = new easepick.create({
+            element: document.getElementById('startDate'),
+            css: [
+                'https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css',
+            ],
+            zIndex: 1000, // 防止被其他层遮挡
+            plugins: ['LockPlugin'], // 启用锁定插件
+            LockPlugin: {
+                minDate: new Date(), // 禁止选今天之前的
+                booked: bookedDates  // 传入已预订的日期数组
+            },
+            setup(picker) {
+                // 可选：当用户选择日期时触发事件
+                picker.on('select', (e) => {
+                    const { date } = e.detail;
+                    // console.log("Selected date:", date);
+                });
             }
         });
 
     } catch (e) {
-        console.error("Failed to load availability", e);
-        // 如果出错，至少初始化一个基础日历
-        flatpickr("#startDate", { minDate: "today" });
+        console.error("Calendar init failed", e);
+        // 如果初始化失败，回退到普通输入框，不至于让页面挂掉
     }
 }
 
@@ -51,7 +63,6 @@ async function handleBooking(roomId) {
     const duration = document.getElementById("duration").value;
     const guests = document.getElementById("guests").value;
 
-    // 前端验证
     if (!startDate) {
         alert("Please select a check-in date.");
         return;
@@ -64,9 +75,7 @@ async function handleBooking(roomId) {
     try {
         const response = await fetch("api/orders", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 roomId: roomId,
                 startDate: startDate,
@@ -92,7 +101,7 @@ async function handleBooking(roomId) {
                 const errData = await response.json();
                 alert("Booking failed: " + (errData.message || "Unknown error"));
             } else {
-                console.error("Server Error (HTML response received)");
+                console.error("Server Error HTML");
                 alert("Booking failed: Internal Server Error. Please contact admin.");
             }
         }
@@ -106,7 +115,6 @@ async function loadRoomDetail(id) {
     try {
         const res = await fetch("api/room-detail?id=" + id);
         if (!res.ok) throw new Error("Failed to load data");
-
         const room = await res.json();
 
         document.getElementById("crumbArea").textContent = room.areaName || "Area";
@@ -115,14 +123,13 @@ async function loadRoomDetail(id) {
         document.getElementById("propPrice").innerHTML = `¥${room.price}<span>/Month</span>`;
         document.getElementById("propType").textContent = room.roomTypeName || "Apartment";
         document.getElementById("propSize").innerHTML = `${room.size}<span>m²</span>`;
-        document.getElementById("propDesc").textContent = room.description || "No description provided.";
+        document.getElementById("propDesc").textContent = room.description || "No description.";
 
         if (room.coverImage) {
             document.getElementById("propImage").src = room.coverImage;
         } else {
             document.getElementById("propImage").src = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80";
         }
-
     } catch (e) {
         console.error(e);
         document.getElementById("propTitle").textContent = "Property not found.";

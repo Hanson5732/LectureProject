@@ -26,7 +26,9 @@ async function loadOrders() {
             // 按钮逻辑
             let actionsHtml = "";
             if (order.status === "UNPAID") {
-                actionsHtml = `<button class="btn-pay" onclick="updateOrder(${order.id}, 'pay')">Pay Now</button>`;
+                actionsHtml = `<button class="btn-cancel" onclick="updateOrder(${order.id}, 'cancel')">Cancel Order</button>
+                                <button class="btn-pay" onclick="updateOrder(${order.id}, 'pay')">Pay Now</button>
+                `;
             } else if (order.status === "PAID") {
                 actionsHtml = `
                     <button class="btn-confirm" onclick="updateOrder(${order.id}, 'confirm')">Check-in</button>

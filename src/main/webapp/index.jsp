@@ -19,10 +19,8 @@
       </a>
 
       <div class="nav-links">
-<%--        <a href="#" class="nav-item">Why Weave</a>--%>
         <a href="#" class="nav-item">Cities <i class="fa-solid fa-angle-down"></i></a>
         <a href="#" class="nav-item">Living Options <i class="fa-solid fa-angle-down"></i></a>
-<%--        <a href="#" class="nav-item">Offers</a>--%>
       </div>
     </div>
 
@@ -57,28 +55,20 @@
 <main class="hero-section">
   <div class="search-container">
     <div class="search-tabs">
-      <button class="tab-btn active">Long Stay (1+ Month)</button>
-      <button class="tab-btn">Short Stay (Under 1 Month)</button>
-      <button class="tab-btn">Student Pricing</button>
+      <button type="button" class="tab-btn active" onclick="setSearchType('long', this)">Long Stay (1+ Month)</button>
+      <button type="button" class="tab-btn" onclick="setSearchType('short', this)">Short Stay (Under 1 Month)</button>
     </div>
 
     <form action="search.jsp" method="get" class="search-bar-rounded">
 
       <div class="search-input-group">
         <label>Where ?</label>
-        <div class="select-wrapper">
-          <select name="areaId">
-            <option value="">Select a city</option>
-            <option value="1">Central</option>
-            <option value="2">Kowloon</option>
-            <option value="3">New Territories</option>
-          </select>
-        </div>
+        <input type="text" name="areaKeyword" placeholder="City or Area..." />
       </div>
 
       <div class="search-input-group">
         <label>When ?</label>
-        <input type="text" placeholder="Select dates" onfocus="(this.type='date')" />
+        <input type="text" name="checkInDate" placeholder="Check-in Date" onfocus="(this.type='date')" />
       </div>
 
       <div class="search-input-group">
@@ -86,6 +76,8 @@
         <select name="guests">
           <option value="1">1 guest</option>
           <option value="2">2 guests</option>
+          <option value="3">3 guests</option>
+          <option value="4">4 guests</option>
         </select>
       </div>
 
@@ -94,9 +86,6 @@
       </button>
     </form>
 
-<%--    <div class="quick-links-container" style="margin-top: 20px; color: white;">--%>
-<%--      <div id="areaLinksContainer">Loading areas...</div>--%>
-<%--    </div>--%>
   </div>
 </main>
 

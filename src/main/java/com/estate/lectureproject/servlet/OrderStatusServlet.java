@@ -50,6 +50,9 @@ public class OrderStatusServlet extends HttpServlet {
             case "refund":
                 newStatus = OrderStatus.REFUND_REQUESTED;
                 break;
+            case "cancel":
+                newStatus = OrderStatus.CANCELLED;
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
                 return;

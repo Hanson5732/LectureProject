@@ -146,3 +146,12 @@ async function logout() {
     await fetch("logout", { method: "POST" });
     window.location.href = "login.jsp";
 }
+
+function setSearchType(type, btn) {
+    // 设置隐藏域
+    document.getElementById('searchType').value = type;
+
+    // 切换样式
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
