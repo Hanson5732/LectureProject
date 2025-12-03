@@ -7,6 +7,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
+import jakarta.transaction.Transactional;
 
 @RequestScoped
 public class RoomDao {
@@ -18,7 +19,13 @@ public class RoomDao {
      * 简单的全量查询（带搜索条件）
      */
     public List<Room> searchRooms(String keyword, Long areaId) {
-        StringBuilder jpql = new StringBuilder("SELECT r FROM Room r WHERE 1=1");
+        // 使用 LEFT JOIN FETCH 一次性查出关联对象
+        StringBuilder jpql = new StringBuilder(
+                "SELECT r FROM Room r " +
+                        "LEFT JOIN FETCH r.area " +
+                        "LEFT JOIN FETCH r.building " +
+                        "LEFT JOIN FETCH r.roomType " +
+                        "WHERE 1=1");
 
         // 动态拼接 SQL
         if (areaId != null) {
@@ -48,7 +55,38 @@ public class RoomDao {
     }
 
     public Optional<Room> findById(Long id) {
+        try {
+            TypedQuery<Room> query = em.createQuery(
+                    "SELECT r FROM Room r " +
+                            "LEFT JOIN FETCH r.area " +
+                            "LEFT JOIN FETCH r.building " +
+                            "LEFT JOIN FETCH r.roomType " +
+                            "WHERE r.id = :id", Room.class);
+
+            query.setParameter("id", id);
+
+            return Optional.of(query.getSingleResult());
+        } catch (Exception e) {
+            // 如果查不到数据，getSingleResult 会抛异常，这里捕获并返回空
+            return Optional.empty();
+        }
+    }
+
+    @Transactional
+    public void create(Room room) {
+        em.persist(room);
+    }
+
+    @Transactional
+    public void update(Room room) {
+        em.merge(room);
+    }
+
+    @Transactional
+    public void delete(Long id) {
         Room room = em.find(Room.class, id);
-        return Optional.ofNullable(room);
+        if (room != null) {
+            em.remove(room);
+        }
     }
 }

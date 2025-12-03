@@ -30,38 +30,33 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Order> orders;
 
-    // 更新 Enum
+    // 枚举定义
     public enum Role {
-        USER, ADMIN // 对应数据库 ENUM('USER','ADMIN')
+        USER, ADMIN
     }
 
-    // 确保 role 字段使用新的 Enum
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-    // JPA 需要一个无参数的构造函数
     public User() {}
 
-    // 您现有的构造函数
     public User(String username, String password, String fullName, String idCardNumber, String phoneNumber, String role) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
         this.idCardNumber = idCardNumber;
         this.phoneNumber = phoneNumber;
-        this.setRole(role);
+        this.setRole(role); // 使用增强后的 setRole
     }
 
-
-    // --- Getters 和 Setters (重要修改) ---
-
+    // Getters
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
     public String getPassword() { return password; }
-    public void setPasswordHash(String password) { this.password = password; } // 保持 servlet 兼容
+    public void setPasswordHash(String password) { this.password = password; }
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
     public String getIdCardNumber() { return idCardNumber; }
@@ -69,13 +64,32 @@ public class User {
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    // [!! 修改 !!] Getter 和 Setter 以处理 Enum 和 String 之间的转换
     public String getRole() {
         return (this.role != null) ? this.role.name() : null;
     }
+
+    /**
+     * [修改] 增强的 setRole 方法
+     * 1. 支持不区分大小写
+     * 2. 将 "agent" 自动映射为 "ADMIN"
+     */
     public void setRole(String roleString) {
-        if (roleString != null) {
-            this.role = Role.valueOf(roleString);
+        if (roleString == null) {
+            this.role = Role.USER; // 默认值
+            return;
+        }
+
+        // 兼容处理：如果是 agent，则视为 admin
+        if ("agent".equalsIgnoreCase(roleString) || "admin".equalsIgnoreCase(roleString)) {
+            this.role = Role.ADMIN;
+        } else {
+            try {
+                // 尝试转换为大写后匹配 (user -> USER)
+                this.role = Role.valueOf(roleString.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                // 如果都不匹配，默认为 USER，防止报错崩溃
+                this.role = Role.USER;
+            }
         }
     }
 }

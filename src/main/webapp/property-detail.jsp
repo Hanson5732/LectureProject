@@ -5,6 +5,9 @@
     <title>Property Detail - Estate Project</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="static/css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
     <style>
         /* 保持你原有的样式 */
         .details-container { width: 1200px; margin: 20px auto; display: flex; justify-content: space-between; }
@@ -44,6 +47,8 @@
                 <a href="#" onclick="logout()" class="nav-item">Logout</a>
                 <% } else { %>
                 <a href="login.jsp" class="nav-item">Login</a>
+                <div class="nav-divider"></div>
+                <a href="register.jsp" class="nav-item">Sign up</a>
                 <% } %>
             </div>
         </div>
@@ -79,70 +84,31 @@
     <aside class="sidebar">
         <h3>Interested in this property?</h3>
         <p>Book a viewing or rent it now.</p>
+
+        <div style="margin-top: 15px;">
+            <label style="display:block; font-size:12px; margin-bottom:5px;">Check-in Date:</label>
+            <input type="text" id="startDate" placeholder="Select Date" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; background-color: white;">
+
+            <label style="display:block; font-size:12px; margin-bottom:5px;">Duration:</label>
+            <select id="duration" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;">
+                <option value="1">1 Month</option>
+                <option value="2">2 Months</option>
+                <option value="3">3 Months</option>
+                <option value="6">6 Months</option>
+                <option value="12">1 Year</option>
+            </select>
+
+            <label style="display:block; font-size:12px; margin-bottom:5px;">Guests (Max 4):</label>
+            <input type="number" id="guests" min="1" max="4" value="1" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;">
+        </div>
+
         <button class="book-btn" id="bookBtn">Book Now</button>
     </aside>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="static/js/apiUtil.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const params = new URLSearchParams(window.location.search);
-        const roomId = params.get("id");
-
-        if (!roomId) {
-            alert("No property selected.");
-            window.location.href = "index.jsp";
-            return;
-        }
-
-        loadRoomDetail(roomId);
-
-        // 绑定预订按钮事件
-        document.getElementById("bookBtn").addEventListener("click", function() {
-            // 这里我们先简单判断是否登录
-            <% if (session.getAttribute("username") == null) { %>
-            alert("Please login to book this property.");
-            window.location.href = "login.jsp";
-            <% } else { %>
-            // 下一步我们将实现这个功能
-            alert("Booking function coming soon!");
-            <% } %>
-        });
-    });
-
-    async function loadRoomDetail(id) {
-        try {
-            const res = await fetch("api/room-detail?id=" + id);
-            if (!res.ok) throw new Error("Failed to load data");
-
-            const room = await res.json();
-
-            // 填充数据
-            document.getElementById("crumbArea").textContent = room.areaName || "Area";
-            document.getElementById("crumbTitle").textContent = room.title;
-            document.getElementById("propTitle").textContent = room.title;
-            document.getElementById("propPrice").innerHTML = `¥${room.price}<span>/Month</span>`;
-            document.getElementById("propType").textContent = room.roomTypeName || "Apartment";
-            document.getElementById("propSize").innerHTML = `${room.size}<span>m²</span>`;
-            document.getElementById("propDesc").textContent = room.description || "No description provided.";
-
-            if (room.coverImage) {
-                document.getElementById("propImage").src = room.coverImage;
-            } else {
-                document.getElementById("propImage").src = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80";
-            }
-
-        } catch (e) {
-            console.error(e);
-            document.getElementById("propTitle").textContent = "Property not found or error loading data.";
-        }
-    }
-
-    async function logout() {
-        await fetch("logout", { method: "POST" });
-        window.location.href = "login.jsp";
-    }
-</script>
+<script src="static/js/room-detail.js"></script>
 
 </body>
 </html>

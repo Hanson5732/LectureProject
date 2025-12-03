@@ -3,6 +3,7 @@ package com.estate.lectureproject.servlet;
 import com.estate.lectureproject.dao.UserDao;
 import com.estate.lectureproject.entity.User;
 import com.estate.lectureproject.utils.PasswordUtil;
+import com.google.gson.Gson;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,12 +14,16 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
     @Inject
     private UserDao userDao;
+
+    private final Gson gson = new Gson();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,13 +50,19 @@ public class LoginServlet extends HttpServlet {
         // 2. 将用户信息存储在会话中
         session.setAttribute("username", user.getUsername());
         session.setAttribute("fullName", user.getFullName());
+        session.setAttribute("userId", user.getId());
+        session.setAttribute("role", user.getRole());
+
         session.setMaxInactiveInterval(30 * 60); // 会话 30 分钟后超时
 
         // 3. 发送成功响应
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        // 服务器现在会自动将会话 ID (JSESSIONID) 作为 cookie 发送给浏览器
-        resp.getWriter().write("{\"message\": \"Login successful\"}");
+
+        Map<String, String> result = new HashMap<>();
+        result.put("message", "Login successful");
+        result.put("role", user.getRole());
+        resp.getWriter().write(gson.toJson(result));
     }
 }

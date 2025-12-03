@@ -13,6 +13,10 @@
 
     <div class="form-wrapper">
 
+        <a href="index.jsp" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Home
+        </a>
+
         <h2>Account Login</h2>
 
         <div class="header-links">

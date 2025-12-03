@@ -29,6 +29,7 @@
     <div class="nav-right">
       <%
         String username = (String) session.getAttribute("username");
+        String role = (String) session.getAttribute("role");
       %>
       <div id="userInfo" class="user-info">
 
@@ -36,6 +37,11 @@
 
         <% if (username != null) { %>
         <span class="nav-item">Hi, <%= username %></span>
+        <% if ("ADMIN".equals(role)) { %>
+        <a href="admin/index.jsp" class="nav-item">Dashboard</a>
+        <% } else { %>
+        <a href="my-orders.jsp" class="nav-item">My Orders</a>
+        <% } %>
         <a id="logoutLink" href="#" class="nav-item">Logout</a>
         <% } else { %>
         <a href="login.jsp" class="nav-item">Login</a>

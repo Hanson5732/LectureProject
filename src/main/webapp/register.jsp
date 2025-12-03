@@ -56,6 +56,10 @@
 
 <div class="login-container">
     <div class="form-wrapper">
+        <a href="index.jsp" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Home
+        </a>
+
         <h2>Create Account</h2>
         <div class="header-links">
             <a href="login.jsp">Login</a>
@@ -66,11 +70,11 @@
 
             <div class="input-group role-selector">
                 <label>
-                    <input type="radio" name="role" value="user" checked>
+                    <input type="radio" name="role" value="USER" checked>
                     I am a User
                 </label>
                 <label>
-                    <input type="radio" name="role" value="agent">
+                    <input type="radio" name="role" value="ADMIN">
                     I am an Agent
                 </label>
             </div>

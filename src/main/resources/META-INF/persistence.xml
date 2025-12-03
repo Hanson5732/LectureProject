@@ -3,6 +3,8 @@
 
   <jta-data-source>lecture_project</jta-data-source>
 
+  <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
   <properties>
     <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
     <property name="hibernate.show_sql" value="true"/>

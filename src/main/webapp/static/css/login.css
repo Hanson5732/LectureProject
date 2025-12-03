@@ -59,7 +59,21 @@ body {
 .header-links a:hover {
     color: #333;
 }
-
+.back-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #999;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 图标和文字的间距 */
+    transition: color 0.3s;
+}
+.back-link:hover {
+    color: #333;
+}
 
 /* 输入框组 */
 .input-group {

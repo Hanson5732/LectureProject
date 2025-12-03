@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
             fetch("login", { // "login" 会被解析为相对路径 -> /login
                 method: "POST",
                 headers: {
-                    // 告诉服务器我们发送的是什么类型的数据
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
                 body: formData // 发送格式化后的数据
@@ -63,10 +62,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 })
                 .then(data => {
-                    // 11. [成功] 登录成功，"data" 是解析后的 JSON
-
-                    // 提示用户并跳转到主页
-                    window.location.href = "index.jsp"; // 登录后跳转到主页
+                    if (data.role === 'ADMIN') {
+                        // 如果是管理员，跳转到后台 Dashboard
+                        window.location.href = "admin/index.jsp";
+                    } else {
+                        // 如果是普通用户，跳转到前台首页
+                        window.location.href = "index.jsp";
+                    }
 
                 })
                 .catch(error => {

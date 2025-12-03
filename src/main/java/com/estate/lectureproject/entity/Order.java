@@ -13,19 +13,17 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 下单用户
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // 预订房源
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OrderStatus status; // UNPAID, PAID, ...
+    private OrderStatus status;
 
     @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;
@@ -35,6 +33,10 @@ public class Order {
 
     @Column(name = "end_date")
     private Date endDate;
+
+    // [新增] 入住人数
+    @Column(name = "guest_count")
+    private Integer guestCount;
 
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
@@ -69,6 +71,9 @@ public class Order {
     public void setStartDate(Date startDate) { this.startDate = startDate; }
     public Date getEndDate() { return endDate; }
     public void setEndDate(Date endDate) { this.endDate = endDate; }
+    public Integer getGuestCount() { return guestCount; }
+    public void setGuestCount(Integer guestCount) { this.guestCount = guestCount; }
+
     public Timestamp getCreatedAt() { return createdAt; }
     public Timestamp getUpdatedAt() { return updatedAt; }
 }
